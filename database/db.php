@@ -1,8 +1,6 @@
 <?php
-require_once ('config.php');
-
 $host = "localhost";
-$db_name = "ride_nepal";
+$db_name = "Byanjan";
 $username = "root";
 $password = "";
 
