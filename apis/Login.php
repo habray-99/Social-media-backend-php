@@ -1,13 +1,14 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
+header('Content-Type: application/json');
 require_once ('../database/db.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $requestType = $_POST['type']; // Add this line to get the request type
+
 
     // Prepare the SQL statement
     $sql = "SELECT * FROM users WHERE email = '$email'";
@@ -22,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         // Verify the password
-        if (password_verify($password, $userPasswordHash) && $row['type'] == $requestType) {
+        if (password_verify($password, $userPasswordHash)) {
             $user_id = $row['id'];
             $token = bin2hex(random_bytes(16)); // Generate a random token
 
@@ -51,13 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $response = array(
                 'status' => 'error',
-                'message' => 'Invalid credentials or user type'
+                'message' => 'Invalid credentials'
             );
         }
     } else {
         $response = array(
             'status' => 'error',
-            'message' => 'Invalid credentials or user type'
+            'message' => 'Invalid credentials'
         );
     }
 
