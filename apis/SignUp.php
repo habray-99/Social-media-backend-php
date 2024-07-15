@@ -1,17 +1,17 @@
-<?
+<?php
 require_once('../database/db.php');
 header('Content-Type: application/json');
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    if (!isset($fullName) || !isset($userName) || !isset($phone) || !isset($email) || !isset($password)) {
-        // Redirect to the signup page with an error message
+    if (!isset($_POST['fullName'], $_POST['userName'], $_POST['phone'], $_POST['email'], $_POST['password'])) {
         $response = array(
             'status' => 'error',
             'message' => 'Incomplete credentials'
         );
+        echo json_encode($response);
         exit();
     }
+
     // Retrieve the user details from the form
     $fullName = $_POST['fullName'];
     $userName = $_POST['userName'];
@@ -46,8 +46,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'token' => $token,
         'user' => $row2,
     );
+    echo json_encode($response);
 
     // Redirect to the dashboard page
     // header("Location: users.php");
     exit();
+} else {
+    $response = array(
+        'status' => 'error',
+        'message' => 'Invalid request method'
+    );
+
+    // Return the response as JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
