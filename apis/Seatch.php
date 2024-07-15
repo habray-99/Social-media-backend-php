@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         while ($row = $result->fetch_assoc()) {
             $posts[] = $row; // Add each row to the $posts array
         }
-        
+
         header('Content-Type: application/json');
         // Prepare the response
         $response = array(
